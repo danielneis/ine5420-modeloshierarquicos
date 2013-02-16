@@ -1,0 +1,13 @@
+Grupo: Daniel Neis Araujo
+       Mario Baldini
+       Rafael de Lucena Valle
+
+Teclas:
+
+Setas - Movimentação da câmera
+w     - Andar com o cavalo
+a     - Girar o cavalo para a esquerda
+d     - Girar o cavalo para a direita
+t     - Alternar entre caminhada/trote
+i    - Habilitar/Desabilitar iluminação
+p   - Deixar o cavalo parado (apenas mexe as pernas, mas não se movimenta)
