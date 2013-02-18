@@ -1,0 +1,90 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BASE_HORN	main.cpp	39;"	d	file:
+BASE_PAW	main.cpp	29;"	d	file:
+ESCAPE	main.cpp	8;"	d	file:
+FEMUR	main.cpp	50;"	d	file:
+HEIGHT_BODY	main.cpp	17;"	d	file:
+HEIGHT_FEMUR	main.cpp	20;"	d	file:
+HEIGHT_HEAD	main.cpp	35;"	d	file:
+HEIGHT_HIP	main.cpp	12;"	d	file:
+HEIGHT_HORN	main.cpp	40;"	d	file:
+HEIGHT_NECK	main.cpp	31;"	d	file:
+HEIGHT_PAW	main.cpp	28;"	d	file:
+HEIGHT_SHIN	main.cpp	24;"	d	file:
+HIP	main.cpp	49;"	d	file:
+HORN	main.cpp	53;"	d	file:
+LEFT_FRONT	main.cpp	43;"	d	file:
+LEFT_REAR	main.cpp	45;"	d	file:
+LENGTH_BODY	main.cpp	18;"	d	file:
+LENGTH_FEMUR	main.cpp	22;"	d	file:
+LENGTH_HEAD	main.cpp	37;"	d	file:
+LENGTH_HIP	main.cpp	14;"	d	file:
+LENGTH_NECK	main.cpp	33;"	d	file:
+LENGTH_SHIN	main.cpp	26;"	d	file:
+PAW	main.cpp	52;"	d	file:
+RIGHT_FRONT	main.cpp	44;"	d	file:
+RIGHT_REAR	main.cpp	46;"	d	file:
+SHIN	main.cpp	51;"	d	file:
+SIZE_SPHERE	main.cpp	10;"	d	file:
+WIDTH_BODY	main.cpp	16;"	d	file:
+WIDTH_FEMUR	main.cpp	21;"	d	file:
+WIDTH_HEAD	main.cpp	36;"	d	file:
+WIDTH_HIP	main.cpp	13;"	d	file:
+WIDTH_NECK	main.cpp	32;"	d	file:
+WIDTH_SHIN	main.cpp	25;"	d	file:
+angle	main.cpp	/^static float angle=0.0,ratio;$/;"	v	file:
+angleCabeca	main.cpp	/^float angleCabeca;$/;"	v
+angleCavalo	main.cpp	/^float angleCavalo = 0.0;$/;"	v
+anglePescoco	main.cpp	/^float anglePescoco = 0.0;$/;"	v
+anglePescocoSubindo	main.cpp	/^int anglePescocoSubindo = 1;$/;"	v
+angleRabo	main.cpp	/^float angleRabo = 0.0;$/;"	v
+angleTronco	main.cpp	/^float angleTronco;$/;"	v
+anglesCaminhada	main.cpp	/^float anglesCaminhada[6][4][4];$/;"	v
+anglesTrote	main.cpp	/^float anglesTrote[6][4][4];$/;"	v
+caminhando	main.cpp	/^int caminhando = 1;$/;"	v
+deslocamento	main.cpp	/^float deslocamento = 0.0;$/;"	v
+deslocamentoYTronco	main.cpp	/^float deslocamentoYTronco = 0.0;$/;"	v
+display	main.cpp	/^void display(void) {$/;"	f
+drawBody	main.cpp	/^void drawBody()$/;"	f
+drawEsphere	main.cpp	/^void drawEsphere()$/;"	f
+drawFemur	main.cpp	/^void drawFemur(int posicao)$/;"	f
+drawHead	main.cpp	/^void drawHead()$/;"	f
+drawHip	main.cpp	/^void drawHip(int posicao)$/;"	f
+drawHorn	main.cpp	/^void drawHorn()$/;"	f
+drawHorse	main.cpp	/^void drawHorse()$/;"	f
+drawLeg	main.cpp	/^void drawLeg(int posicao)$/;"	f
+drawPaw	main.cpp	/^void drawPaw(int posicao)$/;"	f
+drawShin	main.cpp	/^void drawShin(int posicao)$/;"	f
+drawTail	main.cpp	/^void drawTail()$/;"	f
+estagio	main.cpp	/^int estagio = 0;$/;"	v
+iluminacao	main.cpp	/^int iluminacao = 1;$/;"	v
+initAngles	main.cpp	/^void initAngles()$/;"	f
+lx	main.cpp	/^static float lx=0.0f,ly=0.0f,lz=-1.0f;$/;"	v	file:
+ly	main.cpp	/^static float lx=0.0f,ly=0.0f,lz=-1.0f;$/;"	v	file:
+lz	main.cpp	/^static float lx=0.0f,ly=0.0f,lz=-1.0f;$/;"	v	file:
+main	main.cpp	/^int main(int argc, char **argv)$/;"	f
+moveMeFlat	main.cpp	/^void moveMeFlat(int i) {$/;"	f
+movimentarCavalo	main.cpp	/^int movimentarCavalo = 1;$/;"	v
+orientMe	main.cpp	/^void orientMe(float ang)$/;"	f
+params	main.cpp	/^GLUquadricObj *params = gluNewQuadric();$/;"	v
+passo	main.cpp	/^int passo = 0; \/\/ 0 - 10$/;"	v
+passoRabo	main.cpp	/^int passoRabo = 0;$/;"	v
+passoRaboSubindo	main.cpp	/^int passoRaboSubindo = 1;$/;"	v
+pegaAngulo	main.cpp	/^float pegaAngulo(int posicao, int parte)$/;"	f
+pegaAngulo	main.cpp	/^float pegaAngulo(int posicao, int parte, bool posicaoAtual)$/;"	f
+processNormalKeys	main.cpp	/^void processNormalKeys(unsigned char key, int x, int y)$/;"	f
+processSpecialKeys	main.cpp	/^void processSpecialKeys(int key, int x, int y) {$/;"	f
+ratio	main.cpp	/^static float angle=0.0,ratio;$/;"	v	file:
+reshape	main.cpp	/^void reshape(int w, int h)$/;"	f
+timer	main.cpp	/^void timer(int value)$/;"	f
+wd	main.cpp	/^int wd; \/* GLUT window handle *\/$/;"	v
+x	main.cpp	/^static float x=0.0f,y=0.75f,z=5.0f;$/;"	v	file:
+xCavalo	main.cpp	/^float xCavalo = 0.0;$/;"	v
+y	main.cpp	/^static float x=0.0f,y=0.75f,z=5.0f;$/;"	v	file:
+z	main.cpp	/^static float x=0.0f,y=0.75f,z=5.0f;$/;"	v	file:
+zCavalo	main.cpp	/^float zCavalo = 1.5;$/;"	v

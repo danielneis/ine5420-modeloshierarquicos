@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 
 #define ESCAPE 27
+
 #define SIZE_SPHERE 0.04
 
 #define HEIGHT_HIP 0.4
@@ -35,24 +36,29 @@
 #define WIDTH_HEAD 0.4
 #define LENGTH_HEAD 0.15
 
+#define BASE_HORN 0.15
+#define HEIGHT_HORN 0.15
+
+// indices dos arrays de angulo etc
 #define LEFT_FRONT 0
 #define RIGHT_FRONT 1
 #define LEFT_REAR 2
 #define RIGHT_REAR 3
 
+// indices dos arrays de angulo etc
 #define HIP 0
 #define FEMUR 1
 #define SHIN 2
 #define PAW 3
+#define HORN 4
 
-// angles[estagio][posicao][quadril/femur/canela/pata]
+// angles[estagio][posicao][hip/femur/shin/paw]
 float anglesCaminhada[6][4][4];
 float anglesTrote[6][4][4];
 
 int anglePescocoSubindo = 1;
 
 float angleCabeca;
-float angleTronco;
 float angleRabo = 0.0;
 float anglePescoco = 0.0;
 float angleCavalo = 0.0;
@@ -66,7 +72,6 @@ int caminhando = 1;
 int movimentarCavalo = 1;
 int passoRabo = 0;
 int passoRaboSubindo = 1;
-int iluminacao = 1;
 
 float xCavalo = 0.0;
 float zCavalo = 1.5;
@@ -76,6 +81,7 @@ void drawFemur(int posicao);
 void drawShin(int posicao);
 void drawPaw(int posicao);
 void drawHead();
+void drawHorn();
 void drawHorse();
 void initAngles();
 void display();
@@ -120,11 +126,7 @@ void display(void) {
     GLfloat specularLight[] = { 0.3, 0.3, 0.3, 0.3};
     GLfloat lightPos[] = { 300.0f, 2000.0f, -20.0f, 1.0f };
 
-    if (iluminacao) {
-        glEnable(GL_LIGHTING);
-    } else {
-        glDisable(GL_LIGHTING);
-    }
+    glEnable(GL_LIGHTING);
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
     glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
@@ -134,10 +136,8 @@ void display(void) {
     glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
 
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, diffuseLight );
-    //glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 50);
+    glClearColor(0, 0, 0.7, 1.0f);
 
-    // deseha chão
     glPushMatrix();
     glColor3f(0.1, 1, 0.1);
     glBegin(GL_QUADS);
@@ -184,7 +184,7 @@ void processNormalKeys(unsigned char key, int x, int y)
             if (anglePescoco > maiorAngulo || anglePescoco < 0.0) {
                 anglePescocoSubindo = !anglePescocoSubindo;
             }
-            float incremento = caminhando ? 1.5 : 3.0;
+            float incremento = caminhando ? 1.5 : 2.5;
             anglePescoco = anglePescocoSubindo ? anglePescoco + incremento : anglePescoco - incremento;
             if(passo < 10) {
                 caminhando ? passo +=2 : passo +=3;
@@ -223,9 +223,6 @@ void processNormalKeys(unsigned char key, int x, int y)
         case 'p':
             movimentarCavalo = !movimentarCavalo;
             break;
-        case 'i':
-            iluminacao = !iluminacao;
-            break;
     }
 }
 
@@ -257,6 +254,7 @@ int main(int argc, char **argv)
     glutInitWindowPosition(100,100);
     glutInitWindowSize(800,600);
 
+    glClearColor(0, 0, 1, 1.0f);
     wd = glutCreateWindow("Modelos hierarquicos - Cavalo");
 
     glEnable(GL_DEPTH_TEST);
@@ -274,7 +272,7 @@ int main(int argc, char **argv)
     return(0);
 }
 
-float pegaAngulo(int posicao, int parte, bool posicaoAtual)
+float getAngle(int posicao, int parte, bool posicaoAtual)
 {
     int estagioDoAngulo = estagio;
     int estagioFinal = caminhando ? 5 : 3;
@@ -288,7 +286,7 @@ float pegaAngulo(int posicao, int parte, bool posicaoAtual)
     float (*vetor)[4][4] = caminhando ? anglesCaminhada : anglesTrote;
 
     int estagioDeTroca = caminhando ? 2 : 1;
-    if(estagioDoAngulo>estagioDeTroca) {
+    if (estagioDoAngulo > estagioDeTroca) {
         switch(posicao){
             case LEFT_FRONT:
                 return vetor[estagioDoAngulo-estagioDeTroca-1][RIGHT_FRONT][parte];
@@ -305,11 +303,11 @@ float pegaAngulo(int posicao, int parte, bool posicaoAtual)
     return 0.0;
 }
 
-float pegaAngulo(int posicao, int parte)
+float getAngle(int posicao, int parte)
 {
     float fatorPasso = passo/10.0;
-    float angleAtual = pegaAngulo(posicao, parte, true);
-    float proximoAngulo = pegaAngulo(posicao, parte, false);
+    float angleAtual = getAngle(posicao, parte, true);
+    float proximoAngulo = getAngle(posicao, parte, false);
 
     return angleAtual + (proximoAngulo - angleAtual)*fatorPasso;
 }
@@ -374,7 +372,7 @@ void initAngles()
     anglesTrote[0][RIGHT_FRONT][HIP] = 33;
     anglesTrote[0][RIGHT_FRONT][FEMUR] = -75;
     anglesTrote[0][RIGHT_FRONT][SHIN] = 95;
-    anglesTrote[0][RIGHT_FRONT][PAW] = -05;
+    anglesTrote[0][RIGHT_FRONT][PAW] = -5;
 
     anglesTrote[1][LEFT_REAR][FEMUR] = 45;
     anglesTrote[1][LEFT_REAR][SHIN] = 0;
@@ -392,11 +390,11 @@ void initAngles()
     anglesTrote[1][RIGHT_FRONT][PAW] = 0;
 
     angleCabeca = 90.0;
-    angleTronco = -3.75;
 }
 
 void drawHead()
 {
+    glColor3f(0.5,0.5,0.5);
     glPushMatrix();
     glRotatef(45-anglePescoco, 0,0,1);
     glPushMatrix();
@@ -405,6 +403,24 @@ void drawHead()
 
     glutSolidCube(0.5);
 
+    glColor3f(0,0,0);
+
+    glPushMatrix();
+    glScalef(0.015, 0.05, 0.1);
+    glTranslatef(13, -1.5, 3);
+    glutSolidSphere(1, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(0.015, 0.05, 0.1);
+    glTranslatef(13, -1.5, -3);
+    glutSolidSphere(1, 50, 50);
+    glPopMatrix();
+
+    glColor3f(0.5,0.5,0.5);
+
+    drawHorn();
+
     glPopMatrix();
     glTranslatef(WIDTH_NECK*0.19, -HEIGHT_NECK*0.4,0);
     glRotatef(angleCabeca, 0,0,1);
@@ -412,6 +428,22 @@ void drawHead()
     glScalef(WIDTH_HEAD,HEIGHT_HEAD, LENGTH_HEAD);
 
     glutSolidCube(0.5);
+    glPopMatrix();
+}
+
+void drawHorn()
+{
+    glPushMatrix();
+
+    glTranslatef(0.2, 0.1, 0);
+
+  //  glScalef(BASE_HORN, HEIGHT_HORN, BASE_HORN);
+
+    glRotatef(90, 0, 1, 0);
+   // glRotatef(120, 0, 1, 1);
+
+    glutSolidCone(BASE_HORN, HEIGHT_HORN, 8, 6);
+
     glPopMatrix();
 }
 
@@ -444,7 +476,7 @@ void drawTail()
 void drawHip(int posicao)
 {
     glPushMatrix();
-    glRotatef(pegaAngulo(posicao,HIP),0,0,1);
+    glRotatef(getAngle(posicao,HIP),0,0,1);
     glTranslatef(0.0,-SIZE_SPHERE,0.0);
     glPushMatrix();
     glScalef(WIDTH_HIP,HEIGHT_HIP, LENGTH_HIP);
@@ -465,7 +497,7 @@ void drawHip(int posicao)
 void drawFemur(int posicao)
 {
     glPushMatrix();
-    glRotatef(pegaAngulo(posicao, FEMUR),0,0,1);
+    glRotatef(getAngle(posicao, FEMUR),0,0,1);
     glTranslatef(0.0,-SIZE_SPHERE,0.0);
     glPushMatrix();
     glScalef(WIDTH_FEMUR,HEIGHT_FEMUR, LENGTH_FEMUR);
@@ -487,7 +519,7 @@ void drawFemur(int posicao)
 void drawShin(int posicao)
 {
     glPushMatrix();
-    glRotatef(pegaAngulo(posicao,SHIN),0,0,1);
+    glRotatef(getAngle(posicao,SHIN),0,0,1);
     glTranslatef(0.0,-SIZE_SPHERE,0.0);
     glPushMatrix();
     glScalef(WIDTH_SHIN,HEIGHT_SHIN, LENGTH_SHIN);
@@ -500,6 +532,7 @@ void drawShin(int posicao)
     glTranslatef(0.0,-HEIGHT_SHIN*0.5-SIZE_SPHERE,0.0);
 
     drawEsphere();
+
     drawPaw(posicao);
 
     glPopMatrix();
@@ -508,11 +541,13 @@ void drawShin(int posicao)
 void drawPaw(int posicao)
 {
     glPushMatrix();
-    glRotatef(pegaAngulo(posicao, PAW), 0, 0, 1);
+    glRotatef(getAngle(posicao, PAW), 0, 0, 1);
     glTranslatef(0.0, -SIZE_SPHERE, 0.0);
     glTranslatef(0.0, -HEIGHT_PAW*0.35, 0.0);
     glScalef(BASE_PAW, HEIGHT_PAW, BASE_PAW);
     glRotatef(-90, 1, 0, 0);
+
+    glColor3f(0,0,0);
 
     glutSolidCone(0.5, 0.6, 8, 6);
 
@@ -527,10 +562,10 @@ void drawBody()
 
     glPushMatrix();
 
-    glColor3f(0.4,0.2,0.14);
+    glColor3f(0.5,0.5,0.5);
 
     glPushMatrix();
-    glTranslatef(-WIDTH_BODY*0.2,0,0.0);
+    glTranslatef(-WIDTH_BODY*0.2,0,0);
     glPushMatrix();
     glScalef(1,HEIGHT_BODY*1.5, 1);
 
@@ -543,6 +578,7 @@ void drawBody()
     gluCylinder(params,0.25,0.25,0.4,15,2);
 
     glPopMatrix();
+
     glPushMatrix();
     glTranslatef(WIDTH_BODY*0.2,0,0.0);
     glScalef(1,HEIGHT_BODY*1.5, 0.75);
@@ -551,7 +587,6 @@ void drawBody()
 
     glPopMatrix();
 
-    //glColor3f(0.5, 0.45, 0.4);
     glPopMatrix();
 }
 
@@ -568,7 +603,9 @@ void drawLeg(int posicao)
 
 void drawEsphere()
 {
+    glColor3f(1,0,0);
     glutSolidSphere(SIZE_SPHERE, 8, 8);
+    glColor3f(0.5,0.5,0.5);
 }
 
 void drawHorse()
@@ -583,6 +620,7 @@ void drawHorse()
     drawLeg(LEFT_FRONT);
 
     glPopMatrix();
+
     glPushMatrix();
     glTranslatef(WIDTH_BODY*0.22, -HEIGHT_BODY*0.2, LENGTH_BODY*0.2);
 
